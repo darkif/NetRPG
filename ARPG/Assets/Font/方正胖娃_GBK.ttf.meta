@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 1cb8d92934aae4d4ca20898db2e27a16
+timeCreated: 1549691532
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: FZPangWa-M18
+  fontNames:
+  - FZPangWa-M18
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

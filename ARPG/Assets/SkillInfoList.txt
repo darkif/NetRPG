@@ -1,0 +1,4 @@
+1001,斩击,icon_zhu,Swordman,Basic,Basic,0,30
+1002,瞬斩,icon_yi,Swordman,Skill,One,3,60
+1003,旋风斩,icon_ho,Swordman,Skill,Two,3,50
+1004,旋风斩,icon_ho,Swordman,Skill,Three,3,50
