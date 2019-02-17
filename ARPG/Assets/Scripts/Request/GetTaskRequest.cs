@@ -5,11 +5,11 @@ using Common;
 
 public class GetTaskRequest : BaseRequest {
 
-    public override void Start()
+    public override void Awake()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.GetTask;
-        base.Start();
+        base.Awake();
     }
 
     //发起请求

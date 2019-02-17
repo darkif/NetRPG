@@ -23,7 +23,6 @@ namespace Common
         AddMultiPlay,              //多人游戏
         CancelAddMultiPlay,          //取消多人游戏
         StartMultiPlay,              //开始游戏
-        StartPlay,
         ShowTimer
     }
 }

@@ -33,7 +33,7 @@ namespace GameServer.Servers
         {
             client.Room = this;
             RoomClientList.Add(client);
-            if(RoomClientList.Count >= 3)
+            if(RoomClientList.Count == 3)
             {
                 state = RoomState.Battle;
                 //发送倒计时和进入副本的消息
@@ -46,6 +46,7 @@ namespace GameServer.Servers
         {
             client.Room = null;
             RoomClientList.Remove(client);
+            Console.WriteLine(RoomClientList.Count);
             if(RoomClientList.Count == 0)
             {
                 //该房间从服务器移除
@@ -89,7 +90,7 @@ namespace GameServer.Servers
                 BroadcastMessage(null, ActionCode.ShowTimer, i.ToString());
                 Thread.Sleep(1000);
             }
-            BroadcastMessage(null, ActionCode.StartPlay, "r");
+            //BroadcastMessage(null, ActionCode.StartMultiPlay, "r");
         }
 
     }

@@ -5,11 +5,11 @@ using Common;
 
 public class ChangeEquipRequest : BaseRequest {
 
-    public override void Start()
+    public override void Awake()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.ChangeEquip;
-        base.Start();
+        base.Awake();
     }
 
     public void SendRequest(InventoryItem dressOnDB, InventoryItem dressOffDB)

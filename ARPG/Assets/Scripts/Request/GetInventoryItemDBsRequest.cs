@@ -4,11 +4,11 @@ using UnityEngine;
 using Common;
 
 public class GetInventoryItemDBsRequest : BaseRequest {
-    public override void Start()
+    public override void Awake()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.GetInventoryItemDBs;
-        base.Start();
+        base.Awake();
     }
 
     public override void SendRequest()

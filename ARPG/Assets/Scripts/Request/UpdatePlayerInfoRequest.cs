@@ -5,11 +5,11 @@ using Common;
 
 public class UpdatePlayerInfoRequest : BaseRequest {
 
-    public override void Start()
+    public override void Awake()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.UpdatePlayerInfo;
-        base.Start();
+        base.Awake();
     }
 
 

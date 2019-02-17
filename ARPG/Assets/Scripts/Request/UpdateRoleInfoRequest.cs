@@ -7,12 +7,12 @@ public class UpdateRoleInfoRequest : BaseRequest {
 
     private RoleSelectPanel selectPanel;
 
-    public override void Start()
+    public override void Awake()
     {
         selectPanel = GetComponent<RoleSelectPanel>();
         requestCode = RequestCode.User;
         actionCode = ActionCode.UpdateRoleInfo;
-        base.Start();
+        base.Awake();
     }
 
     //发起注册的请求

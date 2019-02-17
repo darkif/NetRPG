@@ -1,9 +1,13 @@
-﻿using DG.Tweening;
+﻿using Common;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+public delegate void OnSyncCompleteEvent();
+
 
 public class OnlinePanel : MonoBehaviour {
 
@@ -11,6 +15,9 @@ public class OnlinePanel : MonoBehaviour {
 
     private Button soloBtn;
     private Button multiBtn;
+
+    private AddMultiPlayRequest addMultiPlayRequest;
+    private bool isSync = false;
 
     private void Awake()
     {
@@ -23,9 +30,21 @@ public class OnlinePanel : MonoBehaviour {
         soloBtn.onClick.AddListener(OnSoloButtonClick);
         multiBtn.onClick.AddListener(OnMultiButtonClick);
 
+        addMultiPlayRequest = GetComponent<AddMultiPlayRequest>();
+
         transform.localScale = Vector3.zero;
         this.gameObject.SetActive(false);
 
+    }
+
+    private void Update()
+    {
+        if (isSync)
+        {
+            isSync = false;
+            this.gameObject.SetActive(false);
+            TeamWaitPanel._instance.ShowPanel();
+        }
     }
 
     void OnSoloButtonClick()
@@ -43,13 +62,22 @@ public class OnlinePanel : MonoBehaviour {
         GameController._instance.battleType = BattleType.Team;
         if(TaskManager._instance.CurTask != null)
             GameController._instance.taskId = TaskManager._instance.CurTask.Id;
-        this.gameObject.SetActive(false);
+        
+        //输入一个副本/地图id
+        addMultiPlayRequest.SendRequest(1001);
 
-        TeamWaitPanel._instance.ShowPanel();
+        
         //AsyncOperation ao = SceneManager.LoadSceneAsync(2);
         //LoadSceneBar._instance.ShowPanel(ao);
     }
 
+    public void OnResponseToAddMultiPlayRequest(ReturnCode returnCode)
+    {
+        if (returnCode == ReturnCode.Success)
+        {
+            isSync = true;
+        }
+    }
 
     public void ShowPanel()
     {

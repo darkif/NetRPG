@@ -193,6 +193,8 @@ public class Task{
     //更新任务状态到数据库 
     public void UpdateTask()
     {
+        if (TaskDB == null)
+            TaskDB = new TaskDB();
         TaskDB.TaskId = Id;
         TaskDB.TaskState = taskProgress;
         TaskDB.TaskType = taskType;

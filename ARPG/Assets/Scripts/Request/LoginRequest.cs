@@ -7,12 +7,12 @@ public class LoginRequest : BaseRequest {
 
     private LoginPanel loginPanel;
 
-    public override void Start()
+    public override void Awake()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.Login;
         loginPanel = GetComponent<LoginPanel>();
-        base.Start();
+        base.Awake();
     }
 
     //发送消息给服务器

@@ -5,11 +5,11 @@ using Common;
 
 public class UpdateOrAddInventoryRequest : BaseRequest {
 
-    public override void Start()
+    public override void Awake()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.UpdateOrAddInventoryItemDB;
-        base.Start();
+        base.Awake();
     }
 
     public void SendRequest(InventoryItemDB itemDB)

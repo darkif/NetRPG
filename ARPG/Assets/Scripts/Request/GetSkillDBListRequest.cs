@@ -5,11 +5,11 @@ using Common;
 
 public class GetSkillDBListRequest : BaseRequest {
 
-    public override void Start()
+    public override void Awake()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.GetSkill;
-        base.Start();
+        base.Awake();
     }
 
     public override void SendRequest()
@@ -35,6 +35,7 @@ public class GetSkillDBListRequest : BaseRequest {
                 SkillDB skillDB = new SkillDB();
                 skillDB.SkillId = int.Parse(proArray[0]);
                 skillDB.Level = int.Parse(proArray[1]);
+                skillDB.Damage = int.Parse(proArray[2]);
                 dbList.Add(skillDB);
                 SkillManager._instance.OnResponseToGetSkillRequest(dbList);
             }

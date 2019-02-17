@@ -106,10 +106,12 @@ public class TaskManager : MonoBehaviour {
     {
         if (curTask == null)
             curTask = task;
-        if(!accpetTaskList.ContainsKey(task.Id))
+        if (!accpetTaskList.ContainsKey(task.Id))
+        {
             accpetTaskList.Add(task.Id, task);
-        curTask.TaskProgress = TaskState.Accpet;
-        curTask.UpdateTask();
+            curTask.TaskProgress = TaskState.Accpet;
+            curTask.UpdateTask();
+        }           
     }
 
     public Task GetTaskById(int id)
@@ -141,7 +143,7 @@ public class TaskManager : MonoBehaviour {
                 if (taskDict.TryGetValue(taskDB.TaskId, out task))
                 {
                     task.SyncTask(taskDB);
-                    if (taskDB.TaskState == TaskState.Accpet) {
+                    if (taskDB.TaskState == TaskState.Accpet && !accpetTaskList.ContainsKey(task.Id)) {
                         accpetTaskList.Add(task.Id, task);
                     }
                 }
@@ -153,7 +155,5 @@ public class TaskManager : MonoBehaviour {
             }
         }
     }
-
-
 
 }

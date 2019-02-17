@@ -208,7 +208,7 @@ namespace GameServer.Controller
                 StringBuilder sb = new StringBuilder();
                 foreach (SkillDB skill in skillList)
                 {
-                    string temp = skill.SkillId + "," + skill.Level + "-";
+                    string temp = skill.SkillId + "," + skill.Level + ","+skill.Damage+"-";
                     sb.Append(temp);
                 }
                 return string.Format("{0}|{1}", ((int)ReturnCode.Success).ToString(), sb.ToString());
@@ -225,6 +225,7 @@ namespace GameServer.Controller
             SkillDB skillDB = new SkillDB();
             skillDB.SkillId = int.Parse(strs[0]);
             skillDB.Level = int.Parse(strs[1]);
+            skillDB.Damage = int.Parse(strs[2]);
             skillDB.RoleId = client.Role.Id;
             if (skillDBDAO.isExistSkillDB(client.MySqlConn, skillDB.SkillId, client.Role.Id))
             {
@@ -245,6 +246,7 @@ namespace GameServer.Controller
             SkillDB skillDB = new SkillDB();
             skillDB.SkillId = int.Parse(strs[0]);
             skillDB.Level = int.Parse(strs[1]);
+            skillDB.Damage = int.Parse(strs[2]);
             skillDB.RoleId = client.Role.Id;
             skillDBDAO.AddSkill(client.MySqlConn, skillDB);
 

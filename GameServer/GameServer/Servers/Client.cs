@@ -130,6 +130,12 @@ namespace GameServer.Servers
             if (clientSocket != null)
             {
                 clientSocket.Close();
+                if (room != null)
+                {
+                    room.RemoveClient(this);
+                    room = null;
+                }
+                
             }
         }
 

@@ -168,9 +168,10 @@ public class Skill{
         if (skillDB == null)
         {
             skillDB = new SkillDB();
-            skillDB.SkillId = SkillId;
-            skillDB.Level = level;
         }
+        skillDB.SkillId = SkillId;
+        skillDB.Level = level;
+        skillDB.Damage = damagae;
 
         SkillManager._instance.SendUpgradeRequest(skillDB);
     }
@@ -179,6 +180,7 @@ public class Skill{
     {
         this.skillDB = skillDB;
         this.level = skillDB.Level;
+        this.damagae = skillDB.Damage;
     }
 
 }

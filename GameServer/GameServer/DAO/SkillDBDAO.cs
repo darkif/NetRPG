@@ -28,6 +28,7 @@ namespace GameServer.DAO
                         skillDB.SkillId = reader.GetInt32("skillid");
                         skillDB.Level = reader.GetInt32("level");
                         skillDB.RoleId = role.Id;
+                        skillDB.Damage= reader.GetInt32("damage");
                         skillList.Add(skillDB);
                     }
                     return skillList;
@@ -55,11 +56,12 @@ namespace GameServer.DAO
         public void UpdateSkillDB(MySqlConnection conn, Role role,SkillDB skillDB){
             try
             {
-                MySqlCommand cmd = new MySqlCommand("update from skilldb set level=@ll where roleid=@rid", conn);
+                MySqlCommand cmd = new MySqlCommand("update skilldb set level=@ll,damage=@dmg where roleid=@rid and skillid=@skid", conn);
                 cmd.Parameters.AddWithValue("ll", skillDB.Level);
+                cmd.Parameters.AddWithValue("dmg", skillDB.Damage);
                 cmd.Parameters.AddWithValue("rid", role.Id);
+                cmd.Parameters.AddWithValue("skid",skillDB.SkillId);
                 cmd.ExecuteNonQuery();
-
             }
             catch (Exception e)
             {
@@ -72,10 +74,11 @@ namespace GameServer.DAO
         {
             try
             {
-                MySqlCommand cmd = new MySqlCommand("insert into skilldb set skillid=@sid,level=@ll, roleid=@rid", conn);
+                MySqlCommand cmd = new MySqlCommand("insert into skilldb set skillid=@sid,level=@ll, roleid=@rid,damage=@dmg", conn);
                 cmd.Parameters.AddWithValue("sid", skillDB.SkillId);
                 cmd.Parameters.AddWithValue("ll", skillDB.Level);
                 cmd.Parameters.AddWithValue("rid", skillDB.RoleId);
+                cmd.Parameters.AddWithValue("dmg", skillDB.Damage);
                 cmd.ExecuteNonQuery();
 
             }

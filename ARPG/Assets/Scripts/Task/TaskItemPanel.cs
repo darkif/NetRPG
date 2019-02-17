@@ -134,4 +134,10 @@ public class TaskItemPanel : MonoBehaviour {
         UpdateShow();
     }
 
+    private void OnDestroy()
+    {
+        if (task != null)
+            task.OnTaskStateChanged -= OnTaskStateChanged;
+    }
+
 }

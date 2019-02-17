@@ -12,5 +12,6 @@ namespace GameServer.Model
         public int SkillId { get; set; }
         public int Level { get; set; }
         public int RoleId { get; set; }
+        public int Damage { get; set; }
     }
 }

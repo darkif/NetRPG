@@ -21,7 +21,7 @@ public class BaseRequest : MonoBehaviour {
         }
     }
 
-    public virtual void Start()
+    public virtual void Awake()
     {
         GameFacade.Instance.AddRequest(actionCode, this);
         facade = GameFacade.Instance;

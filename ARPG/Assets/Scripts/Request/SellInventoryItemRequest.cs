@@ -7,12 +7,12 @@ public class SellInventoryItemRequest : BaseRequest {
 
     private InventoryParentPanel parentPanel;
 
-    public override void Start()
+    public override void Awake()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.SellInventoryItem;
         parentPanel = GetComponent<InventoryParentPanel>();
-        base.Start();
+        base.Awake();
     }
 
     public void SendRequest(InventoryItem it)

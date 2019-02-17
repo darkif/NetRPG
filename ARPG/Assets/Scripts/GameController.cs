@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,6 +48,7 @@ public class GameController : MonoBehaviour {
             if(task.TaskProgress!=TaskState.Complete || task.TaskProgress != TaskState.Reward)
             {
                 task.TaskDB.TaskState = TaskState.Complete;
+                task.TaskDB.LastUpdateTime = DateTime.Now;
                 //更新任务
                 TaskManager._instance.AddTaskRequest.SendRequest(task.TaskDB);
             }
