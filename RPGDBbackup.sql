@@ -31,7 +31,7 @@ CREATE TABLE `inventoryitemdb` (
   PRIMARY KEY (`id`),
   KEY `fk_roleid_idx` (`roleid`),
   CONSTRAINT `fk_inventoryroleid` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `inventoryitemdb` (
 
 LOCK TABLES `inventoryitemdb` WRITE;
 /*!40000 ALTER TABLE `inventoryitemdb` DISABLE KEYS */;
-INSERT INTO `inventoryitemdb` VALUES (1,1018,1,0,5),(2,1003,1,0,5),(3,1005,4,0,5),(4,1017,0,0,5),(5,1012,1,0,5),(6,1013,2,0,5),(7,1010,2,0,5),(8,1002,2,0,5),(9,1015,1,1,5),(10,1014,2,0,5),(11,1007,2,0,5),(12,1011,2,0,5),(13,1009,4,0,5),(14,1004,2,0,5),(15,1006,0,0,5);
+INSERT INTO `inventoryitemdb` VALUES (1,1018,1,0,5),(2,1003,1,0,5),(3,1005,4,0,5),(4,1017,0,0,5),(5,1012,1,0,5),(6,1013,2,0,5),(7,1010,2,0,5),(8,1002,2,0,5),(9,1015,1,1,5),(10,1014,2,0,5),(11,1007,2,0,5),(12,1011,2,0,5),(13,1009,4,0,5),(14,1004,2,0,5),(15,1006,0,0,5),(16,1008,1,0,6);
 /*!40000 ALTER TABLE `inventoryitemdb` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,12 +90,12 @@ CREATE TABLE `role` (
   `atk` int(11) DEFAULT NULL,
   `def` int(11) DEFAULT NULL,
   `hp` int(11) DEFAULT NULL,
-  `maxhp` int(11) DEFAULT NULL,
+  `maxhp` int(11) DEFAULT '100',
   PRIMARY KEY (`id`),
   KEY `fk_userid_idx` (`userid`),
   KEY `fk_uid_idx` (`userid`),
   CONSTRAINT `fk_uid` FOREIGN KEY (`userid`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (5,'123',2,0,1,0,1680,110,5,120,120);
+INSERT INTO `role` VALUES (5,'123',2,0,1,0,1680,110,5,120,120),(6,'sww123',1,0,2,0,1000,10,5,100,100),(7,'darkif123',1,0,5,0,1000,10,5,100,100);
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,6 +120,7 @@ CREATE TABLE `skilldb` (
   `skillid` int(11) DEFAULT NULL,
   `roleid` int(11) DEFAULT NULL,
   `level` int(11) DEFAULT '1',
+  `damage` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_skill_roleid_idx` (`roleid`),
   CONSTRAINT `fk_skill_roleid` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`)
@@ -132,7 +133,7 @@ CREATE TABLE `skilldb` (
 
 LOCK TABLES `skilldb` WRITE;
 /*!40000 ALTER TABLE `skilldb` DISABLE KEYS */;
-INSERT INTO `skilldb` VALUES (3,1002,5,2);
+INSERT INTO `skilldb` VALUES (3,1002,5,2,230);
 /*!40000 ALTER TABLE `skilldb` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +154,7 @@ CREATE TABLE `task` (
   PRIMARY KEY (`id`),
   KEY `foreignK_userid_idx` (`roleId`),
   CONSTRAINT `fk_roleid` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +163,7 @@ CREATE TABLE `task` (
 
 LOCK TABLES `task` WRITE;
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
-INSERT INTO `task` VALUES (1,1001,3,0,'0001-01-01 00:00:00',5),(2,1002,0,1,'2019-02-15 20:24:00',5),(3,1003,0,2,'2019-02-15 20:24:00',5);
+INSERT INTO `task` VALUES (1,1001,1,0,'2019-02-17 23:12:36',6),(2,1002,0,1,'2019-02-15 20:24:00',5),(3,1003,0,2,'2019-02-15 20:24:00',5),(6,1001,1,0,'2019-02-17 23:12:36',6),(7,1001,1,0,'2019-02-17 23:17:41',5),(8,1001,1,0,'2019-02-17 23:19:12',7);
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,4 +202,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-17 16:23:09
+-- Dump completed on 2019-02-17 23:31:29
