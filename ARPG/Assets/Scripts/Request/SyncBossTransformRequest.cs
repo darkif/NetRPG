@@ -11,14 +11,14 @@ public class SyncBossTransformRequest : BaseRequest {
 
     public override void Awake()
     {
-        requestCode = RequestCode.User;
+        requestCode = RequestCode.Game;
         actionCode = ActionCode.SyncBossTranform;
         base.Awake();
     }
 
     private void Start()
     {
-        //InvokeRepeating("SendSyncBossTransformRequest", 2f, 1.0f / 10);
+        InvokeRepeating("SendSyncBossTransformRequest",0.5f, 1.0f / 30);
     }
 
     private void Update()
@@ -33,16 +33,17 @@ public class SyncBossTransformRequest : BaseRequest {
 
     public void SendRequest(Vector3 pos,Vector3 eulerAngles)
     {
-        string data = pos.x + "," + pos.y + "," + pos.z + "," + eulerAngles.x + "," +eulerAngles.y + "," + eulerAngles.z;
-        base.SendRequest("r");
+        string data = pos.x.ToString() + "," + pos.y.ToString() + "," + pos.z.ToString() + "," 
+            + eulerAngles.x.ToString() + "," +eulerAngles.y.ToString() + "," + eulerAngles.z.ToString();
+        base.SendRequest(data);
     }
 
     public override void OnResponse(string data)
     {
-        //string[] strs = data.Split(',');
-        //pos = new Vector3(float.Parse(strs[0]), float.Parse(strs[1]), float.Parse(strs[2]));
-        //eulerAngles = new Vector3(float.Parse(strs[3]), float.Parse(strs[4]), float.Parse(strs[5]));
-        //isSync = true;
+        string[] strs = data.Split(',');
+        pos = new Vector3(float.Parse(strs[0]), float.Parse(strs[1]), float.Parse(strs[2]));
+        eulerAngles = new Vector3(float.Parse(strs[3]), float.Parse(strs[4]), float.Parse(strs[5]));
+        isSync = true;
     }
 
     void SendSyncBossTransformRequest()

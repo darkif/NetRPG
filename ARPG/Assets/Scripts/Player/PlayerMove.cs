@@ -36,7 +36,7 @@ public class PlayerMove : MonoBehaviour {
         {
             gameObject.AddComponent<SyncTransformRequest>();
             syncTransformRequest = GetComponent<SyncTransformRequest>();
-            InvokeRepeating("SendSyncPosAndRotation", 1.5f,1f/60);          
+            InvokeRepeating("SendSyncPosAndRotation", 0.5f,1f/30);          
         }
     }
 	

@@ -265,15 +265,5 @@ namespace GameServer.Controller
 
             return ((int)ReturnCode.Success).ToString();
         }
-
-        public string SyncBossTranform(string data, Client client, Server server)
-        {
-            if (client.Room != null)
-            {
-                client.Room.BroadcastMessage(client, ActionCode.SyncBossTranform, data);
-            }
-
-            return null;
-        }
     }
 }

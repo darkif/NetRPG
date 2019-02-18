@@ -14,8 +14,9 @@ public class SyncTransformRequest : BaseRequest {
 
     public void SendRequest(int roleId,Vector3 pos, Vector3 eulerAngles,bool isMove)
     {
-        string data = roleId.ToString() + "," + pos.x + "," + +pos.y + "," + pos.z + ","
-            + eulerAngles.x + "," + eulerAngles.y + "," + eulerAngles.z + "," + isMove;
+        string data = roleId.ToString() + "," + pos.x.ToString() + "," + pos.y.ToString()+ "," 
+            + pos.z.ToString() + ","+ eulerAngles.x.ToString() + "," + eulerAngles.y.ToString() 
+            + "," + eulerAngles.z.ToString() + "," + isMove.ToString();
         base.SendRequest(data);
     }
 

@@ -40,7 +40,7 @@ namespace GameServer.Servers
                 sb.Append(temp);
             }
             this.BroadcastMessage(null, ActionCode.GetTeamInfo, sb.ToString());
-            if(RoomClientList.Count == 1)
+            if(RoomClientList.Count == 2)
             {
                 state = RoomState.Battle;
                 //发送倒计时和进入副本的消息

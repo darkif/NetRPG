@@ -89,6 +89,14 @@ namespace GameServer.Controller
             return null;
         }
 
+        public string SyncBossTranform(string data, Client client, Server server)
+        {
+            if (client.Room != null)
+            {
+                client.Room.BroadcastMessage(client, ActionCode.SyncBossTranform, data);
+            }
 
+            return null;
+        }
     }
 }

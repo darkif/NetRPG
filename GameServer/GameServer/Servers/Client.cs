@@ -63,11 +63,12 @@ namespace GameServer.Servers
         public void Start()
         {
             //判断客户端是否被关闭
-            if (clientSocket == null || clientSocket.Connected == false || clientSocket.Poll(1000, SelectMode.SelectRead))
-            {
-                Close();
-                return;
-            }
+            //if (clientSocket == null || clientSocket.Connected == false || clientSocket.Poll(1000, SelectMode.SelectRead))
+            //{
+            //    Console.WriteLine(11);
+            //    Close();
+            //    return;
+            //}
 
             clientSocket.BeginReceive(msg.Data, msg.StartIndex, msg.RemainSize, SocketFlags.None, ReceiveCallBack, null);
         }
@@ -81,13 +82,16 @@ namespace GameServer.Servers
                 int len = clientSocket.EndReceive(ar);
                 if (len == 0)
                 {
+                    Console.WriteLine(22);
                     //断开连接
                     Close();
+                    return;
                 }
                 //解析处理消息
                 msg.ReadMessage(len, OnProcessMessage);
                 //继续监听消息的接收
-                Start();
+                //Start();
+                clientSocket.BeginReceive(msg.Data, msg.StartIndex, msg.RemainSize, SocketFlags.None, ReceiveCallBack, null);
             }
             catch(Exception e)
             {
@@ -109,11 +113,12 @@ namespace GameServer.Servers
             try
             {
                 //判断客户端是否被关闭
-                if (clientSocket == null || clientSocket.Connected == false || clientSocket.Poll(1000, SelectMode.SelectRead) )
-                {
-                    Close();
-                    return;
-                }
+                //if (clientSocket == null || clientSocket.Connected == false || clientSocket.Poll(1000, SelectMode.SelectRead) )
+                //{
+                //    Console.WriteLine(33);
+                //    Close();
+                //    return;
+                //}
 
                 byte[] bytes = Message.PackData(actionCode, data);
                 clientSocket.Send(bytes);
