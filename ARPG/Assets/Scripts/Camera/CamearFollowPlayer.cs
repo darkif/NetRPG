@@ -11,7 +11,10 @@ public class CamearFollowPlayer : MonoBehaviour {
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (GameController._instance.player != null)
+            player = GameController._instance.player.transform;
+        else
+            player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame

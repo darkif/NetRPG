@@ -11,7 +11,7 @@ namespace GameServer.DAO
     class RoleDAO
     {
         //根据userid返回角色信息
-        public Role GetRoleById(MySqlConnection coon,int userid)
+        public Role GetRoleByUserId(MySqlConnection coon,int userid)
         {
             MySqlDataReader reader = null;
             try
@@ -55,7 +55,7 @@ namespace GameServer.DAO
         }
 
         //更新或插入角色信息
-        public void UpdateOrAddResult(MySqlConnection conn,Role role)
+        public void UpdateOrAddRole(MySqlConnection conn,Role role)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace GameServer.DAO
 
                 if (role.Id <= -1)
                 {
-                    Role tempRole = GetRoleById(conn, role.Id);
+                    Role tempRole = GetRoleByUserId(conn, role.UserId);
                     role.Id = tempRole.Id;
                 }
             }
@@ -113,7 +113,7 @@ namespace GameServer.DAO
 
                 if (role.Id <= -1)
                 {
-                    Role tempRole = GetRoleById(conn, role.Id);
+                    Role tempRole = GetRoleByUserId(conn, role.UserId);
                     role.Id = tempRole.Id;
                 }
             }

@@ -23,6 +23,9 @@ namespace Common
         AddMultiPlay,              //多人游戏
         CancelAddMultiPlay,          //取消多人游戏
         StartMultiPlay,              //开始游戏
-        ShowTimer
+        ShowTimer,
+        GetTeamInfo,                 //获得队伍里的成员信息
+        SyncPosAndRotation,              //同步w玩家位置和旋转
+        SyncBossTranform                    
     }
 }

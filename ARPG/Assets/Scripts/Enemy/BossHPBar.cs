@@ -17,7 +17,7 @@ public class BossHPBar : MonoBehaviour {
 
     public void ChangedBossHp(int hp,int maxHp)
     {
-        hpSlider.value = hp / (float)maxHp;
+        hpSlider.value = (float)hp / maxHp;
     }
 
 }

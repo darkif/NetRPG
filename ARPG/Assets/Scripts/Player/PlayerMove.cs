@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,16 +15,35 @@ public class PlayerMove : MonoBehaviour {
 
     private Vector3 moveDirection = Vector3.zero;
 
+    public bool isCanControl = false;//表示是否可以用键盘控制
+
+    private Vector3 lastPos = Vector3.zero;
+    private Vector3 lastEulerAngles = Vector3.zero;
+    private SyncTransformRequest syncTransformRequest;
+    private Player player;
+
+    private bool isMove = false;
+
     // Use this for initialization
     void Start () {
         //rg = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-
         cc = GetComponent<CharacterController>();
+
+        player = GetComponent<Player>();
+        
+        if (GameController._instance.battleType==BattleType.Team && isCanControl)
+        {
+            gameObject.AddComponent<SyncTransformRequest>();
+            syncTransformRequest = GetComponent<SyncTransformRequest>();
+            InvokeRepeating("SendSyncPosAndRotation", 1.5f,1f/60);          
+        }
     }
 	
-	// Update is called once per frame
 	void FixedUpdate () {
+        if (!isCanControl)
+            return;
+
         if (anim.GetCurrentAnimatorStateInfo(1).IsName("Die"))
             return;
 
@@ -59,6 +79,22 @@ public class PlayerMove : MonoBehaviour {
                 //rg.velocity = new Vector3(0, velocity.y,0);
                 anim.SetBool("run", false);
             }
+        }
+    }
+
+
+    //发送同步位置和旋转
+    void SendSyncPosAndRotation()
+    {
+        Vector3 position = transform.position;
+        Vector3 eulerAngles = transform.eulerAngles;
+        if(lastPos != position || eulerAngles!=lastEulerAngles || isMove != anim.GetBool("run"))
+        {
+            lastPos = position;
+            lastEulerAngles = eulerAngles;
+            isMove = anim.GetBool("run");
+            //发送请求
+            syncTransformRequest.SendRequest(player.id, position, eulerAngles, isMove);
         }
     }
 

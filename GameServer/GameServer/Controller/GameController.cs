@@ -33,7 +33,7 @@ namespace GameServer.Controller
                             {
                                 Console.WriteLine("加入房间");
                                 room.AddClient(client);
-                                return ((int)ReturnCode.Success).ToString();
+                                return string.Format("{0},{1}", ((int)ReturnCode.Success).ToString(), room.RoomClientList.Count.ToString()); 
                             }
                         }
                     }
@@ -42,13 +42,13 @@ namespace GameServer.Controller
                 {
                     Console.WriteLine("创建房间");
                     server.CreateRoom(client, taskid);
-                    return ((int)ReturnCode.Success).ToString();
+                    return string.Format("{0},{1}", ((int)ReturnCode.Success).ToString(), client.Room.RoomClientList.Count);
                 }
 
                 //虽然存在房间但不是同一个id
                 Console.WriteLine("已有房间但人数已满或者没有改副本的房间,创建房间");
                 server.CreateRoom(client, taskid);
-                return ((int)ReturnCode.Success).ToString();
+                return string.Format("{0},{1}", ((int)ReturnCode.Success).ToString(), client.Room.RoomClientList.Count);
             }           
             catch(Exception e)
             {
@@ -62,7 +62,12 @@ namespace GameServer.Controller
         {
             try
             {
-                client.Room.RemoveClient(client);
+                bool isHost = client.Room.isHouseOwner(client);
+                if (isHost)
+                {
+                    client.Room.BroadcastMessage(client, ActionCode.CancelAddMultiPlay, ((int)ReturnCode.Success).ToString());
+                }
+                client.Room.QuitRoom(client);
                 return ((int)ReturnCode.Success).ToString();
             }
             catch(Exception e)
@@ -71,6 +76,19 @@ namespace GameServer.Controller
             }
             return ((int)ReturnCode.Fail).ToString();
         }
+
+
+        //同步玩家位置和旋转
+        public string SyncPosAndRotation(string data, Client client, Server server)
+        {
+            if (client.Room != null)
+            {
+                client.Room.BroadcastMessage(client, ActionCode.SyncPosAndRotation, data);
+            }
+
+            return null;
+        }
+
 
     }
 }

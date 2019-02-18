@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Boss : MonoBehaviour {
 
+    public static Boss _instance;
+
     public int hp = 500;
     public int maxHp = 500;
     public float viewAngle = 50;    //视野范围
@@ -24,55 +26,59 @@ public class Boss : MonoBehaviour {
     private Animation anim;
     private CharacterController cc;
 
-    //private Slider hpSlider;
+    private void Awake()
+    {
+        _instance = this;
+    }
 
-    // Use this for initialization
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponent<Animation>();
         cc = GetComponent<CharacterController>();
-        //hpSlider = transform.Find("Slider").GetComponent<Slider>();
-        //hpSlider.value = 1.0f;
     }
 
     // Update is called once per frame
     void Update() {
-        if (isAttacking || hp <= 0)
-            return;
+        //多人游戏的时候由房主客户端控制boss位置，其他客户端同步该位置
+        if((GameController._instance.battleType==BattleType.Team && GameController._instance.IsHost) || GameController._instance.battleType==BattleType.Solo)
+        {
+            if (isAttacking || hp <= 0)
+                return;
 
-        Vector3 playerPos = player.position;
-        playerPos.y = transform.position.y;
-        float angle = Vector3.Angle(playerPos - transform.position, transform.forward);
-        if(angle < viewAngle / 2)
-        {
-            //在攻击视野内
-            float distance = Vector3.Distance(playerPos, transform.position);
-            if(distance <= attackDistance)   //可以进行攻击
+            Vector3 playerPos = player.position;
+            playerPos.y = transform.position.y;
+            float angle = Vector3.Angle(playerPos - transform.position, transform.forward);
+            if (angle < viewAngle / 2)
             {
-                if (!isAttacking)
+                //在攻击视野内
+                float distance = Vector3.Distance(playerPos, transform.position);
+                if (distance <= attackDistance)   //可以进行攻击
                 {
-                    anim.CrossFade("idle");
-                    atkTimer += Time.deltaTime;
-                    if (atkTimer > atkTimeInterval)    //开始攻击
+                    if (!isAttacking)
                     {
-                        atkTimer = 0;
-                        Attack();
+                        anim.CrossFade("idle");
+                        atkTimer += Time.deltaTime;
+                        if (atkTimer > atkTimeInterval)    //开始攻击
+                        {
+                            atkTimer = 0;
+                            Attack();
+                        }
                     }
-                }  
+                }
+                else//向玩家移动
+                {
+                    anim.CrossFade("walk");
+                    cc.Move(transform.forward.normalized * moveSpeed * Time.deltaTime);
+                }
             }
-            else//向玩家移动
+            else
             {
-                anim.CrossFade("walk");
-                cc.Move(transform.forward.normalized* moveSpeed * Time.deltaTime);
+                //再攻击视野之外 进行转向
+                Quaternion targetRotation = Quaternion.LookRotation(playerPos - transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                anim.Play("walk");
             }
-        }
-        else
-        {
-            //再攻击视野之外 进行转向
-            Quaternion targetRotation = Quaternion.LookRotation(playerPos - transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-            anim.Play("walk");
-        }
+        }        
 	}
 
 
@@ -111,7 +117,7 @@ public class Boss : MonoBehaviour {
         string[] strs = args.Split(',');
         int damage = int.Parse(strs[0]);
         hp -= damage;
-        //hpSlider.value = hp / (float)maxHp;
+
         BossHPBar._instance.ChangedBossHp(hp, maxHp);
 
         if (hp <= 0)

@@ -36,9 +36,9 @@ namespace GameServer.Controller
             else
             {
                 Console.WriteLine("验证成功");
-                Role role = roleDAO.GetRoleById(client.MySqlConn, user.Id);
+                Role role = roleDAO.GetRoleByUserId(client.MySqlConn, user.Id);
                 client.SetUserDate(user, role);
-                return string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", ((int)ReturnCode.Success).ToString(), role.Name, role.Level, role.RoleId, role.Atk, role.Def, role.Coin, role.Hp, role.Exp, role.MaxHp);
+                return string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", ((int)ReturnCode.Success).ToString(),role.Id ,role.Name, role.Level, role.RoleId, role.Atk, role.Def, role.Coin, role.Hp, role.Exp, role.MaxHp);
             }
         }
 
@@ -77,8 +77,8 @@ namespace GameServer.Controller
             client.Role.Def = int.Parse(strs[6]);
             client.Role.Hp = int.Parse(strs[7]);
             client.Role.MaxHp = int.Parse(strs[8]);
-            roleDAO.UpdateOrAddResult(client.MySqlConn, client.Role);
-            return ((int)ReturnCode.Success).ToString();
+            roleDAO.UpdateOrAddRole(client.MySqlConn, client.Role);
+            return string.Format("{0},{1}", ((int)ReturnCode.Success).ToString(), client.Role.Id); 
         }
 
 
@@ -114,7 +114,7 @@ namespace GameServer.Controller
             GameServer.Model.Task task = new GameServer.Model.Task(taskId, (TaskState)taskState, (TaskType)taskType, dateTime);
             taskDAO.UpdateOrAddTask(client.MySqlConn, task, client.Role);
 
-            return ((int)ReturnCode.Success).ToString();
+            return string.Format("{0},{1},{2}", ((int)ReturnCode.Success).ToString(), taskId, taskState); 
         }
 
         public string UpdatePlayerInfo(string data, Client client, Server server)
@@ -264,6 +264,16 @@ namespace GameServer.Controller
             inventoryItemDBDAO.UpdateOrAddInventoryItemDB(client.MySqlConn, itemDB, client.Role);
 
             return ((int)ReturnCode.Success).ToString();
+        }
+
+        public string SyncBossTranform(string data, Client client, Server server)
+        {
+            if (client.Room != null)
+            {
+                client.Room.BroadcastMessage(client, ActionCode.SyncBossTranform, data);
+            }
+
+            return null;
         }
     }
 }

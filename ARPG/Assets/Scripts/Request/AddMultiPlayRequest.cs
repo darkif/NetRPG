@@ -19,8 +19,14 @@ public class AddMultiPlayRequest : BaseRequest {
 
     public override void OnResponse(string data)
     {
-        ReturnCode returnCode = (ReturnCode)(int.Parse(data));
-        OnlinePanel._instance.OnResponseToAddMultiPlayRequest(returnCode);
+        string[] strs = data.Split(',');
+        ReturnCode returnCode = (ReturnCode)(int.Parse(strs[0]));
+        if (returnCode == ReturnCode.Success)
+        {
+            int num = int.Parse(strs[1]);
+            OnlinePanel._instance.OnResponseToAddMultiPlayRequest(num);
+        }
+        
     }
 
 }

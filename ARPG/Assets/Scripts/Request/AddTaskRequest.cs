@@ -18,4 +18,14 @@ public class AddTaskRequest : BaseRequest {
         base.SendRequest(data);
     }
 
+    public override void OnResponse(string data)
+    {
+        string[] strs = data.Split(',');
+        ReturnCode returnCode = (ReturnCode)(int.Parse(strs[0]));
+        TaskDB taskDB = new TaskDB();
+        taskDB.TaskId = int.Parse(strs[1]);
+        taskDB.TaskState = (TaskState)(int.Parse(strs[2]));
+        TaskManager._instance.OnResponseToAddOrUpdateTaskRequest(taskDB);
+    }
+
 }

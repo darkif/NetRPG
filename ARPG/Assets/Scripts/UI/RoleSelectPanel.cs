@@ -49,7 +49,7 @@ public class RoleSelectPanel : MonoBehaviour {
     public void OnCreateRoleEnterGameBtn()
     {
         string name = nameInput.text;
-        RoleData roleData = new RoleData(name, 1, 0,10,5,1000,100,0,100);
+        RoleData roleData = new RoleData(-1,name, 1, 0,10,5,1000,100,0,100);
         GameFacade.Instance.SetRoleData(roleData);
         //把角色等级、名字、id发给服务器，然后跳转场景
         updateRoleInfoRequest.SendRequest(roleData.Name, roleData.Level, roleData.RoleId, roleData.Exp, roleData.Coin, roleData.Atk, roleData.Def, roleData.Hp,roleData.MaxHp); ;

@@ -53,10 +53,12 @@ namespace GameServer.DAO
                 MySqlCommand cmd = null;
                 if (!IsExistTask(conn, task.TaskId,role.Id))
                 {
+                    Console.WriteLine(11111);
                     cmd = new MySqlCommand("insert into task set taskId=@tid,taskState=@tState,taskType=@tType,lastUpdateTime=@updateTime,roleId=@rid", conn);
                 }
                 else
                 {
+                    Console.WriteLine("updatetask");
                     cmd = new MySqlCommand("update task set taskState=@tState,taskType=@tType,lastUpdateTime=@updateTime,roleId=@rid where taskId=@tid", conn);
                 }
                 cmd.Parameters.AddWithValue("tid", task.TaskId);

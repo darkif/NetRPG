@@ -33,12 +33,19 @@ namespace GameServer.Servers
         {
             client.Room = this;
             RoomClientList.Add(client);
-            if(RoomClientList.Count == 3)
+            StringBuilder sb = new StringBuilder();
+            foreach(Client c in roomClientList)
+            {
+                string temp = c.Role.Id.ToString() + ",";
+                sb.Append(temp);
+            }
+            this.BroadcastMessage(null, ActionCode.GetTeamInfo, sb.ToString());
+            if(RoomClientList.Count == 1)
             {
                 state = RoomState.Battle;
                 //发送倒计时和进入副本的消息
                 StartTimer();
-            }
+            }            
         }
 
         //移除
@@ -62,6 +69,36 @@ namespace GameServer.Servers
             return state == RoomState.WaitingJion;
         }
 
+        //判断是不是房主host
+        public bool isHouseOwner(Client client)
+        {
+            return client == RoomClientList[0];
+        }
+
+
+        public void QuitRoom(Client client)
+        {
+            //房间里的第一个是房主
+            if (client == RoomClientList[0])
+            {
+                //关闭房间
+                Close();
+            }
+            else//移除另一个玩家
+            {
+                RoomClientList.Remove(client);
+                client.Room = null;
+            }
+        }
+
+        public void Close()
+        {
+            foreach (Client client in RoomClientList)
+            {
+                client.Room = null;
+            }
+            server.RemoveRoom(this);
+        }
 
         //广播消息
         public void BroadcastMessage(Client excludeClient, ActionCode actionCode, string data)

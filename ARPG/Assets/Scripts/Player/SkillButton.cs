@@ -16,7 +16,7 @@ public class SkillButton : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        playerAtk = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAttack>();
+        playerAtk = GameController._instance.player.GetComponent<PlayerAttack>();
         btn = GetComponent<Button>();
         btn.onClick.AddListener(OnAtkButtonClick);
         mask = transform.Find("mask").GetComponent<Image>();

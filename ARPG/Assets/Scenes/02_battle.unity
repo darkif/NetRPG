@@ -8814,6 +8814,7 @@ GameObject:
   - component: {fileID: 826991768}
   - component: {fileID: 826991767}
   - component: {fileID: 826991766}
+  - component: {fileID: 826991770}
   m_Layer: 0
   m_Name: boss
   m_TagString: Untagged
@@ -8897,6 +8898,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &826991770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 826991765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b83a30f67c15348b1195b426bf0ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &832674220
 Prefab:
   m_ObjectHideFlags: 0
@@ -17835,6 +17847,22 @@ Prefab:
     - target: {fileID: 19863482, guid: 49591cd5292aabb44887d4434be5b9c7, type: 2}
       propertyPath: InitialModule.startSize.minCurve.m_Curve.Array.data[0].value
       value: 0.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 19863482, guid: 49591cd5292aabb44887d4434be5b9c7, type: 2}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.7000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19863482, guid: 49591cd5292aabb44887d4434be5b9c7, type: 2}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.7000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19863482, guid: 49591cd5292aabb44887d4434be5b9c7, type: 2}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.7000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19863482, guid: 49591cd5292aabb44887d4434be5b9c7, type: 2}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.7000
       objectReference: {fileID: 0}
     - target: {fileID: 19863482, guid: 49591cd5292aabb44887d4434be5b9c7, type: 2}
       propertyPath: InitialModule.startSize.minScalar

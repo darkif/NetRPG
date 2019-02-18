@@ -160,7 +160,8 @@ public class Task{
             if (taskProgress != value)
             {
                 taskProgress = value;
-                OnTaskStateChanged();
+                if (OnTaskStateChanged != null)
+                    OnTaskStateChanged();
             }
             
         }

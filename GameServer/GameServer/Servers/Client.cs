@@ -42,10 +42,11 @@ namespace GameServer.Servers
             get { return role; }
         }
 
-        private Room room = null;
+        private Room room;
         public Room Room
         {
-            get;set;
+            get { return room; }
+            set { room = value; }
         }
 
         public Client() { }
@@ -62,7 +63,7 @@ namespace GameServer.Servers
         public void Start()
         {
             //判断客户端是否被关闭
-            if (clientSocket.Connected == false || clientSocket.Poll(10, SelectMode.SelectRead))
+            if (clientSocket == null || clientSocket.Connected == false || clientSocket.Poll(1000, SelectMode.SelectRead))
             {
                 Close();
                 return;
@@ -108,7 +109,7 @@ namespace GameServer.Servers
             try
             {
                 //判断客户端是否被关闭
-                if (clientSocket.Connected == false || clientSocket.Poll(10, SelectMode.SelectRead))
+                if (clientSocket == null || clientSocket.Connected == false || clientSocket.Poll(1000, SelectMode.SelectRead) )
                 {
                     Close();
                     return;
@@ -125,18 +126,28 @@ namespace GameServer.Servers
 
 
         //断开连接
-        private void Close()
+        public void Close()
         {
             if (clientSocket != null)
             {
-                clientSocket.Close();
-                if (room != null)
+                if (Room != null)
                 {
-                    room.RemoveClient(this);
-                    room = null;
+                    Room.QuitRoom(this);
                 }
-                
+                if (mySqlConn != null)
+                {
+                    mySqlConn.Close();
+                }
+                clientSocket.Close();
+                clientSocket = null;
+                server.RemoveClient(this);
+                Console.WriteLine("一个客户端断开连接");
             }
+        }
+
+        public bool isConnected()
+        {
+            return clientSocket.Poll(1000, SelectMode.SelectRead);
         }
 
     }

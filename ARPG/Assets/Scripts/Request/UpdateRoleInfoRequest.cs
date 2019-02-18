@@ -25,7 +25,9 @@ public class UpdateRoleInfoRequest : BaseRequest {
 
     public override void OnResponse(string data)
     {
-        ReturnCode returnCode = (ReturnCode)int.Parse(data);
+        string[] strs = data.Split(',');
+        ReturnCode returnCode = (ReturnCode)int.Parse(strs[0]);
+        GameFacade.Instance.GetRoleData().Id = int.Parse(strs[1]);
         selectPanel.OnUpdateRoleResponse(returnCode);
     }
 

@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TeamWaitPanel : MonoBehaviour {
@@ -44,8 +45,7 @@ public class TeamWaitPanel : MonoBehaviour {
 
         if (msg != "")
         {
-            print(msg);
-            content.text = "进入副本倒计时....";
+            content.text = "进入副本倒计时...";
             ShowTimer(msg);
             msg = "";
         }
@@ -75,14 +75,21 @@ public class TeamWaitPanel : MonoBehaviour {
 
     void ShowTimer(string num)
     {
-        timer.transform.localScale = new Vector3(3, 3, 3);
+        timer.transform.localScale = new Vector3(2,2, 2);
         Color tempColor = timer.color;
         tempColor.a = 1;
         timer.color = tempColor;
         timer.gameObject.SetActive(true);
         timer.text = num;
         timer.transform.DOScale(1, 0.3f).SetDelay(0.3f);
-        timer.DOFade(0, 0.3f).SetDelay(0.3f).OnComplete(() => { timer.gameObject.SetActive(false); });
+        timer.DOFade(0, 0.3f).SetDelay(0.3f).OnComplete(() => {
+            timer.gameObject.SetActive(false);
+            if (num == "1")
+            {
+                AsyncOperation ao = SceneManager.LoadSceneAsync(2);
+                LoadSceneBar._instance.ShowPanel(ao);
+            }
+        });
     }
 
     public void OnResponseToCancelRequest(ReturnCode returnCode)

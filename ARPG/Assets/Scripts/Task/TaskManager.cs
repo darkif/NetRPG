@@ -106,6 +106,8 @@ public class TaskManager : MonoBehaviour {
     {
         if (curTask == null)
             curTask = task;
+        if (task.TaskProgress != TaskState.NoStart)
+            return;
         if (!accpetTaskList.ContainsKey(task.Id))
         {
             accpetTaskList.Add(task.Id, task);
@@ -154,6 +156,14 @@ public class TaskManager : MonoBehaviour {
                 OnSyncComplete();
             }
         }
+    }
+
+
+    public void OnResponseToAddOrUpdateTaskRequest(TaskDB taskDB)
+    {
+        Task task = null;
+        taskDict.TryGetValue(taskDB.TaskId, out task);
+        task.TaskProgress = taskDB.TaskState;
     }
 
 }

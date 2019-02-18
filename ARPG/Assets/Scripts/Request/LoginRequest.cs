@@ -31,8 +31,8 @@ public class LoginRequest : BaseRequest {
         if (returnCode == ReturnCode.Success)
         {
             //保存游戏角色信息
-            RoleData tempRole = new RoleData(strs[1], int.Parse(strs[2]), int.Parse(strs[3]), 
-                int.Parse(strs[4]), int.Parse(strs[5]), int.Parse(strs[6]), int.Parse(strs[7]), int.Parse(strs[8]),int.Parse(strs[9]));
+            RoleData tempRole = new RoleData(int.Parse(strs[1]), strs[2], int.Parse(strs[3]), 
+                int.Parse(strs[4]), int.Parse(strs[5]), int.Parse(strs[6]), int.Parse(strs[7]), int.Parse(strs[8]),int.Parse(strs[9]), int.Parse(strs[10]));
             GameFacade.Instance.SetRoleData(tempRole);
         }
 

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Common;
 using GameServer.Controller;
 
@@ -28,6 +29,31 @@ namespace GameServer.Servers
             this.ip = ip;
             this.port = port;
             controllerManager = new ControllerManager(this);
+
+            Timer timer = new Timer(1000);
+            /*timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);*/
+        }
+
+        /*void Timer_Elapsed(object sender,ElapsedEventArgs e)
+        {
+            if (clientList.Count > 0)
+            {
+                foreach(Client client in clientList)
+                {
+                    if (client.isConnected())
+                    {
+                        Console.WriteLine(1);
+                        client.Close();
+                        continue;
+                    }
+                    client.Send(ActionCode.None, "test connect");
+                }
+            }
+        }*/
+
+        public void RemoveClient(Client client)
+        {
+            clientList.Remove(client);
         }
 
         //初始化服务器

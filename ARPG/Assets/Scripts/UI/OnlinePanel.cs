@@ -71,12 +71,10 @@ public class OnlinePanel : MonoBehaviour {
         //LoadSceneBar._instance.ShowPanel(ao);
     }
 
-    public void OnResponseToAddMultiPlayRequest(ReturnCode returnCode)
+    public void OnResponseToAddMultiPlayRequest(int num)
     {
-        if (returnCode == ReturnCode.Success)
-        {
-            isSync = true;
-        }
+        isSync = true;
+        GameController._instance.IsHost = (num == 1);
     }
 
     public void ShowPanel()

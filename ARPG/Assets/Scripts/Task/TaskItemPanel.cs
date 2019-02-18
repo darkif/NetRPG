@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -119,6 +120,7 @@ public class TaskItemPanel : MonoBehaviour {
             PlayerInfo._instance.AddCoin(task.Coin);
             task.TaskProgress = TaskState.Reward;
             task.TaskDB.TaskState = TaskState.Reward;
+            task.TaskDB.LastUpdateTime = DateTime.Now;
             //更新到服务器
             TaskManager._instance.AddTaskRequest.SendRequest(task.TaskDB);
         }
