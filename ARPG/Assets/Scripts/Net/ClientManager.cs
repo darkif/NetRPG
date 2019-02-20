@@ -56,6 +56,7 @@ public class ClientManager : BaseManager {
     //发送消息给服务器
     public void SendRequest(RequestCode requestCode, ActionCode actionCode, string data)
     {
+        
         byte[] bytes = Message.PackData(requestCode, actionCode, data);
         clientSocket.Send(bytes);
         //clientSocket.BeginSend(bytes, 0, bytes.Length, SocketFlags.None, null, null);

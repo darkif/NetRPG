@@ -26,60 +26,68 @@ public class Boss : MonoBehaviour {
     private Animation anim;
     private CharacterController cc;
 
+    private Vector3 lastPos = Vector3.zero;
+    private Vector3 lastEulerAnges = Vector3.zero;
+
     private void Awake()
     {
         _instance = this;
     }
 
+    private SyncBossTransformRequest syncBossTransformRequest;
+
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponent<Animation>();
         cc = GetComponent<CharacterController>();
+
+        if (GameController._instance.battleType == BattleType.Team)
+        {
+            syncBossTransformRequest = GetComponent<SyncBossTransformRequest>();
+            InvokeRepeating("SendSyncRequest", 0, 1f/30);
+        }
     }
 
     // Update is called once per frame
     void Update() {
-        //多人游戏的时候由房主客户端控制boss位置，其他客户端同步该位置
-        if((GameController._instance.battleType==BattleType.Team && GameController._instance.IsHost) || GameController._instance.battleType==BattleType.Solo)
-        {
-            if (isAttacking || hp <= 0)
-                return;
+        if (isAttacking || hp <= 0)
+            return;
 
-            Vector3 playerPos = player.position;
-            playerPos.y = transform.position.y;
-            float angle = Vector3.Angle(playerPos - transform.position, transform.forward);
-            if (angle < viewAngle / 2)
+        Vector3 playerPos = player.position;
+        playerPos.y = transform.position.y;
+        float angle = Vector3.Angle(playerPos - transform.position, transform.forward);
+        if (angle < viewAngle / 2)
+        {
+            //在攻击视野内
+            float distance = Vector3.Distance(playerPos, transform.position);
+            if (distance <= attackDistance)   //可以进行攻击
             {
-                //在攻击视野内
-                float distance = Vector3.Distance(playerPos, transform.position);
-                if (distance <= attackDistance)   //可以进行攻击
+                if (!isAttacking)
                 {
-                    if (!isAttacking)
+                    anim.CrossFade("idle");
+                    atkTimer += Time.deltaTime;
+                    if (atkTimer > atkTimeInterval)    //开始攻击
                     {
-                        anim.CrossFade("idle");
-                        atkTimer += Time.deltaTime;
-                        if (atkTimer > atkTimeInterval)    //开始攻击
-                        {
-                            atkTimer = 0;
-                            Attack();
-                        }
+                        atkTimer = 0;
+                        Attack();
                     }
                 }
-                else//向玩家移动
-                {
-                    anim.CrossFade("walk");
-                    cc.Move(transform.forward.normalized * moveSpeed * Time.deltaTime);
-                }
             }
-            else
+            else//向玩家移动
             {
-                //再攻击视野之外 进行转向
-                Quaternion targetRotation = Quaternion.LookRotation(playerPos - transform.position);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-                anim.Play("walk");
+                anim.CrossFade("walk");
+                cc.Move(transform.forward.normalized * moveSpeed * Time.deltaTime);
             }
-        }        
-	}
+        }
+        else
+        {
+            //再攻击视野之外 进行转向
+            Quaternion targetRotation = Quaternion.LookRotation(playerPos - transform.position);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            anim.Play("walk");
+        }
+
+    }
 
 
     void Attack()
@@ -100,7 +108,7 @@ public class Boss : MonoBehaviour {
         float distance = Vector3.Distance(player.transform.position, transform.position);
         if (distance <= attackDistance)
         {
-            player.GetComponent<PlayerAttack>().TakeDamage(atkArray[0]);
+            //player.GetComponent<Player>().TakeDamage(atkArray[0]);
         }
     }
 
@@ -135,6 +143,17 @@ public class Boss : MonoBehaviour {
         if(backMove > 0.1)
         {
             transform.DOBlendableLocalMoveBy(-transform.forward * moveSpeed, 0.3f);
+        }
+    }
+
+
+    void SendSyncRequest()
+    {
+        if(transform.position!=lastPos || transform.eulerAngles != lastEulerAnges)
+        {
+            lastEulerAnges = transform.eulerAngles;
+            lastPos = transform.position;
+            syncBossTransformRequest.SendRequest(lastPos, lastEulerAnges);
         }
     }
 

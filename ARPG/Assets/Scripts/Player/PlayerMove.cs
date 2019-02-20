@@ -32,7 +32,7 @@ public class PlayerMove : MonoBehaviour {
 
         player = GetComponent<Player>();
         
-        if (GameController._instance.battleType==BattleType.Team && isCanControl)
+        if (GameController._instance.battleType==BattleType.Team)
         {
             gameObject.AddComponent<SyncTransformRequest>();
             syncTransformRequest = GetComponent<SyncTransformRequest>();
@@ -41,8 +41,6 @@ public class PlayerMove : MonoBehaviour {
     }
 	
 	void FixedUpdate () {
-        if (!isCanControl)
-            return;
 
         if (anim.GetCurrentAnimatorStateInfo(1).IsName("Die"))
             return;

@@ -2,10 +2,11 @@
 using Common;
 using System.Text;
 using System.Linq;
+using UnityEngine;
 
 public class Message
 {
-    private byte[] data = new byte[2048];
+    private byte[] data = new byte[10240];
     private int startIndex = 0;//表示从data的什么位置开始存数据,即已经存储了多少数据
 
     public byte[] Date
@@ -77,6 +78,7 @@ public class Message
         byte[] actionCodeBytes = BitConverter.GetBytes((int)actionCode);
         byte[] dataBytes = Encoding.UTF8.GetBytes(data);
         int dataAmount = requestCodeBytes.Length + dataBytes.Length + actionCodeBytes.Length;
+
         //Debug.Log(dataAmount);
         byte[] dataAmountBytes = BitConverter.GetBytes(dataAmount);
         //组装要传输的字节数组

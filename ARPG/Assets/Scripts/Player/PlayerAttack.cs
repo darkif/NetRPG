@@ -22,10 +22,20 @@ public class PlayerAttack : MonoBehaviour {
     private int hp;
     public event OnPlayerHpChangeEvent OnPlayerHpChange;
 
+    private Player player;
+    private SyncPlayerAnimRequest syncPlayerAnimRequest;
+
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>();
         hp = PlayerInfo._instance.HP;
+        player = GetComponent<Player>();
+        //当前角色属于当前客户端
+        if(GameController._instance.battleType==BattleType.Team)
+        {
+            gameObject.AddComponent<SyncPlayerAnimRequest>();
+            syncPlayerAnimRequest = GetComponent<SyncPlayerAnimRequest>();
+        }
     }
 
 
@@ -33,10 +43,12 @@ public class PlayerAttack : MonoBehaviour {
     {
         if (buttonType == ButtonType.normalAtk)
         {
-                anim.SetTrigger("normalAtk");
+            anim.SetTrigger("normalAtk");
+            syncPlayerAnimRequest.SendRequest(player.id,"normalAtk");
         }
         else{
             anim.SetTrigger("skill" + (int)buttonType);
+            syncPlayerAnimRequest.SendRequest(player.id, "skill" + (int)buttonType);
         }
     }
 
@@ -86,6 +98,8 @@ public class PlayerAttack : MonoBehaviour {
         List<GameObject> enemyList = new List<GameObject>();
         if (attackRange == AttackRange.Forward)
         {
+            if (EnemyManager._instance.enemyList.Count == 0)
+                return null;
             foreach (GameObject go in EnemyManager._instance.enemyList)
             {
                 //转成玩家的局部坐标
@@ -129,14 +143,16 @@ public class PlayerAttack : MonoBehaviour {
             hp = 0;
             GameController._instance.OnPlayerDead();
             anim.SetTrigger("die");
+
+            syncPlayerAnimRequest.SendRequest(player.id, "die");
         }
         else
         {
             anim.SetTrigger("takeDamage");
-        }
-        OnPlayerHpChange(hp);
 
-        
+            syncPlayerAnimRequest.SendRequest(player.id, "takeDamage");
+        }
+        OnPlayerHpChange(hp);        
     }
 
 }

@@ -771,8 +771,6 @@ GameObject:
   - component: {fileID: 4892410859589746}
   - component: {fileID: 95599639539467986}
   - component: {fileID: 143790236392422900}
-  - component: {fileID: 114968086799608386}
-  - component: {fileID: 114759562434673986}
   - component: {fileID: 114938858179252578}
   m_Layer: 8
   m_Name: Player
@@ -6589,20 +6587,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114759562434673986
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1240106997150322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d87d70a1ac40f0f40b87a421499661c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atkForwardDistance: 2
-  atkRangeDistance: 2
-  damageArray: 140000001e000000
 --- !u!114 &114938858179252578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6615,20 +6599,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: -1
---- !u!114 &114968086799608386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1240106997150322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c8804c596b8eb643adcba351e6b1031, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravity: 0.5
-  speed: 3
-  isCanControl: 1
 --- !u!137 &137077201196634362
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

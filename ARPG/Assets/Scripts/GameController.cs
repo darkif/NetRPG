@@ -72,11 +72,6 @@ public class GameController : MonoBehaviour {
             isSyncTransform = false;
             OnSyncPositionAndRotation(playerid, pos, eulerAngles,isMove);          
         }
-        //if (isSyncMoveAnim)
-        //{
-        //    isSyncMoveAnim = false;
-        //    OnSyncMoveAnim(moveId, isMove);
-        //}
     }
 
     public void OnPlayerDead()
